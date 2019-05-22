@@ -15,6 +15,7 @@ X103ed <- read_csv("C:/Users/user/Downloads/A17000000J-020066-Qod/103ed.csv")
 X104ed <- read_csv("C:/Users/user/Downloads/A17000000J-020066-Qod/104ed.csv")
 X105ed <- read_csv("C:/Users/user/Downloads/A17000000J-020066-Qod/105ed.csv")
 X106ed <- read_csv("C:/Users/user/Downloads/A17000000J-020066-Qod/106ed.csv")
+# 匯入資料
 
 library(dplyr)
 X103ed$"大職業別"<- gsub("、","_",X103ed$"大職業別")
@@ -23,23 +24,24 @@ X106ed$"大學-薪資"<-gsub("—"," ",X106ed$"大學-薪資")
 X106ed$"研究所及以上-薪資"<-gsub("—"," ",X106ed$"研究所及以上-薪資")
 x1036<-merge(X103ed,X106ed,by="大職業別")
 x1036$"研究所及以上-薪資.y"<-gsub("—"," ",x1036$"研究所及以上-薪資.y")
+# Join 103和106年度表格，變成新表格。
 ```
 
 ### 106年度薪資較103年度薪資高的職業有哪些? 
 ```{r compare103106}
-uuu<-x1036[as.numeric(x1036$"大學-薪資.y")>as.numeric(x1036$"大學-薪資.x"),]
-uuu<-na.omit(uuu)
+uuu<-x1036[as.numeric(x1036$"大學-薪資.y")>as.numeric(x1036$"大學-薪資.x"),]#比大小
+uuu<-na.omit(uuu)#去掉不要的值
 uuu$大職業別
 ```
 
 ### 提高超過5%的的職業有哪些? 
 ```{r over5}
-x1036$"比例"<- as.numeric(x1036$"大學-薪資.y")/as.numeric(x1036$"大學-薪資.x")
-x1036<-arrange(x1036,desc(比例))
+x1036$"比例"<- as.numeric(x1036$"大學-薪資.y")/as.numeric(x1036$"大學-薪資.x")#計算比例
+x1036<-arrange(x1036,desc(比例))#比例由大到小排序
 big103106<-x1036[x1036$"比例">1.05,]
 big103106<-na.omit(big103106)
 big103106$"大職業別"
-head(big103106$"大職業別",10)
+head(big103106$"大職業別",10)#呈現前十名的資料
 ```
 
 ### 主要的職業種別是哪些種類呢?
@@ -66,11 +68,11 @@ head(big103106$"大職業別",10)
  
 ```{r grad}
 X106ed$"比例"<-as.numeric(X106ed$"研究所及以上-薪資")/as.numeric(X106ed$"大學-薪資")
-X106test<-arrange(X106ed,desc(比例))
+X106test<-arrange(X106ed,desc(比例))#薪資差異比例由大到小排序
 X106test<-na.omit(X106test)
 X106test<-X106test[,c(-3:-10,-12,-14)]
 X106test
-head(X106test$大職業別,10)
+head(X106test$大職業別,10)#呈現前十名的資料
 ```
 
 ## 我有興趣的職業別薪資狀況分析
@@ -80,12 +82,14 @@ head(X106test$大職業別,10)
 interest<- X106ed[3:10,]
 interest<- interest[c(-3,-4,-5,-6,-7),]
 interest<- interest[,c(-3:-10,-12,-14,-15)]
-interest
+interest#有興趣的職業別和呈現相對應的大學畢業薪資與研究所畢業薪資
+#跟我想得不太一樣 我以為會更多
 ```
 
 ### 這些職業別研究所薪資與大學薪資差多少呢？
 ```{r likeGrad}
-interest$"薪資差距"<-as.numeric(interest$"研究所及以上-薪資")-as.numeric(interest$"大學-薪資")
+interest$"薪資差距"<-as.numeric(interest$"研究所及以上-薪資")-as.numeric(interest$"大學-薪資")#研究所薪資與大學薪資差
 interest
+#不念了 反正好像沒有差很多
 ```
 

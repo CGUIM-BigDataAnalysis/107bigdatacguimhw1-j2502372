@@ -99,6 +99,8 @@ X106ed <- read_csv("C:/Users/user/Downloads/A17000000J-020066-Qod/106ed.csv")
     ## )
 
 ``` r
+# 匯入資料
+
 library(dplyr)
 ```
 
@@ -120,13 +122,14 @@ X106ed$"大學-薪資"<-gsub("—"," ",X106ed$"大學-薪資")
 X106ed$"研究所及以上-薪資"<-gsub("—"," ",X106ed$"研究所及以上-薪資")
 x1036<-merge(X103ed,X106ed,by="大職業別")
 x1036$"研究所及以上-薪資.y"<-gsub("—"," ",x1036$"研究所及以上-薪資.y")
+# Join 103和106年度表格，變成新表格。
 ```
 
 ### 106年度薪資較103年度薪資高的職業有哪些?
 
 ``` r
 uuu<-x1036[as.numeric(x1036$"大學-薪資.y")>as.numeric(x1036$"大學-薪資.x"),]
-uuu<-na.omit(uuu)
+uuu<-na.omit(uuu)#去掉不要的值
 uuu$大職業別
 ```
 
