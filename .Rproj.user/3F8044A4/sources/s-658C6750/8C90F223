@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1558278695173.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3536108638",
+    "id" : "8C90F223",
+    "lastKnownWriteTime" : 1558547014,
+    "last_content_update" : 1558547014344,
+    "path" : "C:/Users/user/Desktop/威柏/big data.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "35,76",
+        "scrollLine" : "11",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

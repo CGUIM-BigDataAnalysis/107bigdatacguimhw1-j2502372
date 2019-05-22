@@ -1,0 +1,42 @@
+library(readr)
+X103ed <- read_csv("C:/Users/user/Downloads/A17000000J-020066-Qod/103ed.csv")
+X104ed <- read_csv("C:/Users/user/Downloads/A17000000J-020066-Qod/104ed.csv")
+X105ed <- read_csv("C:/Users/user/Downloads/A17000000J-020066-Qod/105ed.csv")
+X106ed <- read_csv("C:/Users/user/Downloads/A17000000J-020066-Qod/106ed.csv")
+
+library(dplyr)
+X103ed$"大職業別"<- gsub("、","_",X103ed$大職業別)
+X103ed$"大學-薪資"<-gsub("—"," ",X103ed$"大學-薪資")
+X104ed$"大學-薪資"<-gsub("—"," ",X103ed$"大學-薪資")
+X105ed$"大學-薪資"<-gsub("—"," ",X103ed$"大學-薪資")
+X106ed$"大學-薪資"<-gsub("—"," ",X106ed$"大學-薪資")
+X106ed$"研究所及以上-薪資"<-gsub("—"," ",X106ed$"研究所及以上-薪資")
+x1036$"研究所及以上-薪資.y"<-gsub("—"," ",x1036$"研究所及以上-薪資.y")
+x1036<-merge(X103ed,X106ed,by="大職業別")
+
+library(dplyr)
+X106ed$"比例"<-as.numeric(X106ed$"研究所及以上-薪資")/as.numeric(X106ed$"大學-薪資")
+X106test<-arrange(X106ed,desc(比例))
+X106test<-na.omit(X106test)
+X106test<-X106test[,c(-3:-10,-12,-14)]
+head(X106test$大職業別,10)
+
+uuu<-x1036[as.numeric(x1036$"大學-薪資.y")>as.numeric(x1036$"大學-薪資.x"),]
+uuu<-na.omit(uuu)
+
+x1036$比例<- as.numeric(x1036$"大學-薪資.y")/as.numeric(x1036$"大學-薪資.x")
+x1036<-arrange(x1036,desc(比例))
+head(x1036$大職業別,10)
+big103106<-x1036[x1036$比例>1.05,]
+big103106<-na.omit(big103106)
+
+interest<- X106ed[3:10,]
+interest<- interest[c(-3,-4,-5,-6,-7),]
+interest<- interest[,c(-3:-10,-12,-14,-15)]
+interest$薪資差距<-as.numeric(interest$"研究所及以上-薪資")-as.numeric(interest$"大學-薪資")
+
+X103test<-arrange(X103ed,"大學-女/男")
+
+bbbbbb<- data.frame(103比例=c(X103ed$"大學-女/男"),104比例=c(X104ed$"大學-女/男"),105比例=c(X105ed$"大學-女/男"),106比例=c(X106ed$"大學-女/男"))
+
+
