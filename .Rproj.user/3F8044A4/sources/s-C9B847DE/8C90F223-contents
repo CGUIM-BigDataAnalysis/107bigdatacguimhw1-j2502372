@@ -35,8 +35,39 @@ interest<- interest[c(-3,-4,-5,-6,-7),]
 interest<- interest[,c(-3:-10,-12,-14,-15)]
 interest$薪資差距<-as.numeric(interest$"研究所及以上-薪資")-as.numeric(interest$"大學-薪資")
 
-X103test<-arrange(X103ed,"大學-女/男")
+X103ed$"大學-女/男"<-gsub("—|…"," ",X103ed$"大學-女/男")
+X104ed$"大學-女/男"<-gsub("—|…"," ",X103ed$"大學-女/男")
+X105ed$"大學-女/男"<-gsub("—|…"," ",X103ed$"大學-女/男")
+X106ed$"大學-女/男"<-gsub("—|…"," ",X106ed$"大學-女/男")
 
-bbbbbb<- data.frame(103比例=c(X103ed$"大學-女/男"),104比例=c(X104ed$"大學-女/男"),105比例=c(X105ed$"大學-女/男"),106比例=c(X106ed$"大學-女/男"))
+X103work<-arrange(X103ed,as.numeric(X103ed$`大學-女/男`))
+X104work<-arrange(X104ed,as.numeric(X104ed$`大學-女/男`))
+X105work<-arrange(X105ed,as.numeric(X105ed$`大學-女/男`))
+X106work<-arrange(X106ed,as.numeric(X106ed$`大學-女/男`))
+X103work<-X103work[,c(1,2,12)]
+X104work<-X104work[,c(1,2,12)]
+X105work<-X105work[,c(1,2,12)]
+X106work<-X106work[,c(1,2,12)]
+join<-full_join(X103work,X104work,by="大職業別")
+join<-join[,-4]
+join<-full_join(join,X105work,by="大職業別")
+join<-join[,-5]
+join<-full_join(join,X106work,by="大職業別")
+join<-join[,c(-1,-6)]
 
-
+X103work1<-arrange(X103ed,desc(as.numeric(X103ed$`大學-女/男`)))
+X104work1<-arrange(X104ed,desc(as.numeric(X104ed$`大學-女/男`)))
+X105work1<-arrange(X105ed,desc(as.numeric(X105ed$`大學-女/男`)))
+X106work1<-arrange(X106ed,desc(as.numeric(X106ed$`大學-女/男`)))
+X103work1<-X103work1[,c(1,2,12)]
+X104work1<-X104work1[,c(1,2,12)]
+X105work1<-X105work1[,c(1,2,12)]
+X106work1<-X106work1[,c(1,2,12)]
+join1<-full_join(X103work1,X104work1,by="大職業別")
+join1<-join1[,-4]
+join1<-full_join(join1,X105work1,by="大職業別")
+join1<-join1[,-5]
+join1<-full_join(join1,X106work,by="大職業別")
+join1<-join1[,c(-1,-6)]
+print(head(join1$"大職業別",3))
+print(head(join$"大職業別",116))
